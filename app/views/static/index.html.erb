@@ -1,7 +1,18 @@
 <h1>Story Prototype</h1>
+
+<% if @user %>
+  <p>Logged in as <%= @user %></p>
+<% else %>
+  <p>Not logged in</p>
+<% end %>
+<%= button_to "Sign in as Narrator", '/sessions/create/narrator' %>
+<%= button_to "Sign in as Hero", '/sessions/create/hero' %>
+<%= button_to "Logout", sessions_destroy_path, method: :delete %>
+
 <% @messages.each do |message| %>
   <small><%= message.user %>:</small>
   <p><%= message.body %></p>
 <% end %>
 
 <%= render "messages/form", message: @message %>
+
