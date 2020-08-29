@@ -1,18 +1,17 @@
 <h1>Story Prototype</h1>
 
-<% if @user %>
-  <p>Logged in as <%= @user %></p>
-<% else %>
-  <p>Not logged in</p>
-<% end %>
-<%= button_to "Sign in as Narrator", '/sessions/create/narrator' %>
-<%= button_to "Sign in as Hero", '/sessions/create/hero' %>
-<%= button_to "Logout", sessions_destroy_path, method: :delete %>
+<p><%= loginStatus(@user) %></p>
+
+<%= button_to "Sign in as Narrator", '/sessions/create/narrator' unless @user == 'narrator' %>
+<%= button_to "Sign in as Hero", '/sessions/create/hero' unless @user == 'hero' %>
+<%= button_to "Logout", sessions_destroy_path, method: :delete if @user %>
 
 <% @messages.each do |message| %>
-  <small><%= message.user %>:</small>
-  <p><%= message.body %></p>
+  <div class="message <%= 'mine' if message.user == @user %>">
+    <small><%= message.user %>:</small>
+    <p><%= message.body %></p>
+  </div>
 <% end %>
 
-<%= render "messages/form", message: @message %>
+<%= render "messages/form", message: @message if @user %>
 
