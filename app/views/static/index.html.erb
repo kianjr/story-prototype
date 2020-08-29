@@ -1,0 +1,7 @@
+<h1>Story Prototype</h1>
+<% @messages.each do |message| %>
+  <small><%= message.user %>:</small>
+  <p><%= message.body %></p>
+<% end %>
+
+<%= render "messages/form", message: @message %>
