@@ -1,0 +1,5 @@
+<canvas id="<%= "canvas_#{message.id}" %>" width="400px" height="400px" ></canvas>
+<script>
+  var displayCanvas = new fabric.StaticCanvas(<%= "canvas_#{message.id}" %>)
+  displayCanvas.loadFromJSON('<%= raw(message.canvas) %>')
+</script>
