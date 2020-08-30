@@ -9,6 +9,11 @@
 <% @messages.each do |message| %>
   <div class="message <%= 'mine' if message.user == @user %>">
     <small><%= message.user %>:</small>
+    <canvas id="<%= "canvas_#{message.id}" %>" width="400px" height="400px" ></canvas>
+    <script>
+      var displayCanvas = new fabric.Canvas(<%= "canvas_#{message.id}" %>)
+      displayCanvas.loadFromJSON('<%= raw(message.canvas) %>')
+    </script>
     <p><%= message.body %></p>
   </div>
 <% end %>
