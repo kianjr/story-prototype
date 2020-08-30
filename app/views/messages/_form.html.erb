@@ -12,12 +12,11 @@
   <% end %>
 
   <div class="field">
-    <%= form.text_area :body %>
+    <%= form.text_area :body, placeholder: 'Write your story here' %>
   </div>
 
   <div class="field">
-    <%= form.label :canvas %>
-    <%= form.text_area :canvas, id: 'canvas_text' %>
+    <%= form.text_area :canvas, id: 'canvas_text', hidden: true %>
   </div>
 
   <div class="actions">
