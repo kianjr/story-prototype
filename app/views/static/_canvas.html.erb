@@ -2,4 +2,11 @@
 <script>
   const canvas = new fabric.Canvas("canvas")
   canvas.isDrawingMode = true
+
+  function writeCanvasToForm(){
+    const form_field = document.getElementById("canvas_text")
+    form_field.value = JSON.stringify(canvas)
+  }
+
+  canvas.on('mouse:up', writeCanvasToForm)
 </script>
