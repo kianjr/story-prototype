@@ -8,5 +8,35 @@
     form_field.value = JSON.stringify(canvas)
   }
 
-  canvas.on('mouse:up', writeCanvasToForm)
+  function toggleMode(){
+    canvas.isDrawingMode = !canvas.isDrawingMode
+    if (canvas.isDrawingMode) { document.getElementById("mode").innerText = 'Drawing Mode' }
+    else { document.getElementById("mode").innerText = 'Select Mode' }
+  }
+
+  function removeActive(){
+    var active = canvas.getActiveObject()
+    canvas.remove(active)
+  }
+
+  function addCircle(){
+    var circle = new fabric.Circle(
+      { radius: 30, fill: '', strokeWidth: 1, stroke: 'black'}
+    )
+    canvas.add(circle)
+  }
+
+  function addRect(){
+    var rect = new fabric.Rect(
+      { width: 40, height: 30, fill: '', strokeWidth: 1, stroke: 'black'}
+    )
+    canvas.add(rect)
+  }
+
+  canvas.on('after:render', writeCanvasToForm)
 </script>
+<p id="mode">Drawing Mode</p>
+<button onClick="toggleMode()" >Toggle Mode</button>
+<button onClick="removeActive()" >Delete Selected Object</button>
+<button onClick="addCircle()" >Add Circle</button>
+<button onClick="addRect()" >Add Rectangle</button>
