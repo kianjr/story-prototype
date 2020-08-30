@@ -13,5 +13,11 @@
   </div>
 <% end %>
 
+<canvas id="canvas"></canvas>
+
 <%= render "messages/form", message: @message if @user %>
 
+<script>
+  const canvas = new fabric.Canvas("canvas")
+  canvas.isDrawingMode = true
+</script>
