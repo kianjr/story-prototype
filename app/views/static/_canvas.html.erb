@@ -1,7 +1,6 @@
 <canvas id="canvas" width="400" height="400"></canvas>
 <script>
   const canvas = new fabric.Canvas("canvas")
-  canvas.isDrawingMode = true
 
   function writeCanvasToForm(){
     const form_field = document.getElementById("canvas_text")
@@ -33,20 +32,22 @@
     canvas.add(rect)
   }
 
-  function addBackground(){
-    canvas.setBackgroundImage("https://res.cloudinary.com/dm3ooe9xy/image/upload/c_scale,w_400/v1598898839/Story/bw1.jpg", canvas.renderAll.bind(canvas))
-  }
-
-  function clearBackground(){
-    canvas.setBackgroundImage(null, canvas.renderAll.bind(canvas))
+  function updateBackground(){
+    var url = document.getElementById("background").value
+    canvas.setBackgroundImage(url || null, canvas.renderAll.bind(canvas))
   }
 
   canvas.on('after:render', writeCanvasToForm)
 </script>
-<p id="mode">Drawing Mode</p>
+
+<p id="mode">Select Mode</p>
 <button onClick="toggleMode()" >Toggle Mode</button>
 <button onClick="removeActive()" >Delete Selected Object</button>
 <button onClick="addCircle()" >Add Circle</button>
-<button onClick="addRect()" >Add Rectangle</button>
-<button onClick="addBackground()" >Add Background</button>
-<button onClick="clearBackground()" >Clear Background</button>
+<label for="">Background</label>
+<select id="background" name="" onchange="updateBackground()">
+  <option value="">None</option>
+  <option value="https://res.cloudinary.com/dm3ooe9xy/image/upload/c_scale,e_grayscale,h_400,w_400/v1598901994/Story/DelightfulDwellingFloor2.png">Bedroom</option>
+  <option value="https://res.cloudinary.com/dm3ooe9xy/image/upload/c_scale,e_grayscale,h_400,w_400/v1598902833/Story/PoachersCrest.jpg">Town</option>
+  <option value="https://res.cloudinary.com/dm3ooe9xy/image/upload/c_scale,e_grayscale,h_400,w_400/v1598901746/Story/Arvyre_Continent_Map_-_23x16_-_Minimal.jpg">World</option>
+</select>
