@@ -37,6 +37,10 @@
     canvas.setBackgroundImage("https://res.cloudinary.com/dm3ooe9xy/image/upload/c_scale,w_400/v1598898839/Story/bw1.jpg", canvas.renderAll.bind(canvas))
   }
 
+  function clearBackground(){
+    canvas.setBackgroundImage(null, canvas.renderAll.bind(canvas))
+  }
+
   canvas.on('after:render', writeCanvasToForm)
 </script>
 <p id="mode">Drawing Mode</p>
@@ -45,3 +49,4 @@
 <button onClick="addCircle()" >Add Circle</button>
 <button onClick="addRect()" >Add Rectangle</button>
 <button onClick="addBackground()" >Add Background</button>
+<button onClick="clearBackground()" >Clear Background</button>
