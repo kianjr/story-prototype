@@ -22,7 +22,8 @@
 
 <%= render "messages/form", message: @message if @user %>
 
+<div id="end"></div>
 <script>
   // scroll to bottom of page on page load
-  window.scrollTo(0, document.body.scrollHeight);
+  window.scrollTo(0, document.documentElement.scrollHeight);
 </script>

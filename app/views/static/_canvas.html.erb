@@ -18,42 +18,31 @@
     canvas.remove(active)
   }
 
-  function addCircle(){
-    var circle = new fabric.Circle(
-      { radius: 30, fill: '', strokeWidth: 1, stroke: 'black'}
-    )
-    canvas.add(circle)
-  }
-
-  function addRect(){
-    var rect = new fabric.Rect(
-      { width: 40, height: 30, fill: '', strokeWidth: 1, stroke: 'black'}
-    )
-    canvas.add(rect)
-  }
-
   function updateBackground(){
     var url = document.getElementById("background").value
     canvas.setBackgroundImage(url || null, canvas.renderAll.bind(canvas))
   }
 
   function addEntity(){
-    fabric.Image.fromURL('https://res.cloudinary.com/dm3ooe9xy/image/upload/v1598901490/Story/heroes_1_2020-08-31T19_03_00.702Z.png', function(oImg) {
+    var url = document.getElementById("entity").value
+    fabric.Image.fromURL(url, function(oImg) {
       canvas.add(oImg);
     });
   }
-
-  canvas.on('after:render', writeCanvasToForm)
 </script>
 
-<p id="mode">Select Mode</p>
-<button onClick="toggleMode()" >Toggle Mode</button>
-<button onClick="removeActive()" >Delete Selected Object</button>
-<button onClick="addCircle()" >Add Circle</button>
-<label for="">Background</label>
+<small id="mode">Select Mode</small><br>
+<button onClick="toggleMode()" >Toggle</button>
 <select id="background" name="" onchange="updateBackground()">
-  <option value="">None</option>
+  <option value="">Select a Background</option>
   <option value="https://res.cloudinary.com/dm3ooe9xy/image/upload/c_scale,e_grayscale,h_400,w_400/v1598901994/Story/DelightfulDwellingFloor2.png">Bedroom</option>
   <option value="https://res.cloudinary.com/dm3ooe9xy/image/upload/c_scale,e_grayscale,h_400,w_400/v1598902833/Story/PoachersCrest.jpg">Town</option>
   <option value="https://res.cloudinary.com/dm3ooe9xy/image/upload/c_scale,e_grayscale,h_400,w_400/v1598901746/Story/Arvyre_Continent_Map_-_23x16_-_Minimal.jpg">World</option>
 </select>
+<select id="entity" name="" onchange="addEntity()">
+  <option value="">Add an Entity</option>
+  <option value="https://res.cloudinary.com/dm3ooe9xy/image/upload/v1598901490/Story/heroes_1_2020-08-31T19_03_00.702Z.png">Swishy cloak guy</option>
+  <option value="https://res.cloudinary.com/dm3ooe9xy/image/upload/v1598900554/Story/heroes_9_2020-08-31T19_01_10.924Z.png">Angry orc</option>
+</select>
+<button onClick="removeActive()" >Delete Entity</button>
+<button onClick="canvas.clear()" >Clear Canvas</button>
