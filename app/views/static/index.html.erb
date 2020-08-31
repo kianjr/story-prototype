@@ -10,7 +10,7 @@
 
 <div class="message-list">
   <% @messages.each do |message| %>
-    <div class="message <%= 'mine' if message.user == @user %>">
+    <div class="message <%= message.user %>">
       <small><%= message.user %>:</small><br>
       <%= render "static_canvas", message: message unless message.canvas.blank? %>
       <p><%= message.body %></p>

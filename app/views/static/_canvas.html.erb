@@ -1,6 +1,9 @@
 <canvas id="canvas" width="400" height="400"></canvas>
 <script>
   const canvas = new fabric.Canvas("canvas")
+  canvas.setWidth(window.innerWidth - 10)
+  canvas.setHeight(window.innerWidth - 10)
+
 
   function writeCanvasToForm(){
     const form_field = document.getElementById("canvas_text")

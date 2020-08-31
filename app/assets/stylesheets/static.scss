@@ -12,17 +12,32 @@
   justify-content: space-between;
 }
 
+.message-list {
+  padding: 5px
+}
+
 .message {
-  width: 400px;
-  border: 1px solid grey;
-  border-radius: 5px;
-  padding: 5px;
   margin-bottom: 15px;
-  margin-right: auto;
-  &.mine {
-    margin-right: 0px;
-    margin-left: auto;
+  &.narrator > p {
+    text-align: justify;
+    padding: 0px 20px;
+    white-space: pre-line;
+    &::after {
+      content: "❦";
+      display: block;
+      text-align: center;
+      font-size: 18px;
+      padding: 10px;
+    }
+  }
+  &.hero {
+    padding: 5px;
+    border-radius: 5px;
+    margin: 30px;
     background-color: #ececec;
+  }
+  small {
+    color: grey;
   }
 }
 
