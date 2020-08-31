@@ -1,20 +1,28 @@
-<h1>Story Prototype</h1>
-
-<p><%= loginStatus(@user) %></p>
-
-<%= button_to "Sign in as Narrator", '/sessions/create/narrator' unless @user == 'narrator' %>
-<%= button_to "Sign in as Hero", '/sessions/create/hero' unless @user == 'hero' %>
-<%= button_to "Logout", sessions_destroy_path, method: :delete if @user %>
-
-<% @messages.each do |message| %>
-  <div class="message <%= 'mine' if message.user == @user %>">
-    <small><%= message.user %>:</small><br>
-    <%= render "static_canvas", message: message unless message.canvas.blank? %>
-    <p><%= message.body %></p>
+<div class="header">
+  <h2>Story Prototype</h2>
+  <p><%= loginStatus(@user) %></p>
+  <div>
+    <%= button_to "Sign in as Narrator", '/sessions/create/narrator' unless @user == 'narrator' %>
+    <%= button_to "Sign in as Hero", '/sessions/create/hero' unless @user == 'hero' %>
+    <%= button_to "Logout", sessions_destroy_path, method: :delete if @user %>
   </div>
-<% end %>
+</div>
+
+<div class="message-list">
+  <% @messages.each do |message| %>
+    <div class="message <%= 'mine' if message.user == @user %>">
+      <small><%= message.user %>:</small><br>
+      <%= render "static_canvas", message: message unless message.canvas.blank? %>
+      <p><%= message.body %></p>
+    </div>
+  <% end %>
+</div>
 
 <%= render "canvas" if @user == 'narrator' %>
 
 <%= render "messages/form", message: @message if @user %>
 
+<script>
+  // scroll to bottom of page on page load
+  window.scrollTo(0, document.body.scrollHeight);
+</script>

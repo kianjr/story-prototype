@@ -2,6 +2,16 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
+.header {
+  position: sticky;
+  top: 0;
+  background: white;
+  padding: 10px;
+  border-bottom: 2px solid black;
+  display: flex;
+  justify-content: space-between;
+}
+
 .message {
   width: 400px;
   border: 1px solid grey;
