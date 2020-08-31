@@ -29,6 +29,8 @@
       canvas.add(oImg);
     });
   }
+
+  canvas.on('after:render', writeCanvasToForm)
 </script>
 
 <small id="mode">Select Mode</small><br>
