@@ -37,6 +37,12 @@
     canvas.setBackgroundImage(url || null, canvas.renderAll.bind(canvas))
   }
 
+  function addEntity(){
+    fabric.Image.fromURL('https://res.cloudinary.com/dm3ooe9xy/image/upload/v1598901490/Story/heroes_1_2020-08-31T19_03_00.702Z.png', function(oImg) {
+      canvas.add(oImg);
+    });
+  }
+
   canvas.on('after:render', writeCanvasToForm)
 </script>
 
