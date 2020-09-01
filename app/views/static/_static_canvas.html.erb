@@ -3,5 +3,6 @@
   var displayCanvas = new fabric.StaticCanvas(<%= "canvas_#{message.id}" %>)
   displayCanvas.setWidth(window.innerWidth - 10)
   displayCanvas.setHeight(window.innerWidth - 10)
+  displayCanvas.setZoom(displayCanvas.width / 400)
   displayCanvas.loadFromJSON('<%= raw(message.canvas) %>')
 </script>
