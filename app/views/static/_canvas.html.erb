@@ -1,8 +1,8 @@
 <canvas id="canvas" width="400" height="400"></canvas>
 <script>
   const canvas = new fabric.Canvas("canvas")
-  canvas.setWidth(window.innerWidth - 10)
-  canvas.setHeight(window.innerWidth - 10)
+  canvas.setWidth(document.body.clientWidth - 10)
+  canvas.setHeight(document.body.clientWidth - 10)
   canvas.setZoom(canvas.width / 400)
 
 
