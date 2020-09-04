@@ -54,3 +54,18 @@ input[type="submit"] {
   background: #eee;
   margin: 0 auto;
 }
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #ccc;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+}
+
+.overlay-body {
+  max-width: 600px;
+  margin: 0 auto;
+}

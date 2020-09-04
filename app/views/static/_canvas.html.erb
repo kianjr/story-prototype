@@ -34,7 +34,17 @@
     });
   }
 
+  function closeSceneEditor(){
+    document.getElementById("sceneEditor").style.display = "none"
+  }
+
+  function updateNewStaticCanvas(){
+    let JSON = document.getElementById('canvas_text').value
+    newStaticCanvas.loadFromJSON(JSON)
+  }
+
   canvas.on('after:render', writeCanvasToForm)
+  canvas.on('after:render', updateNewStaticCanvas)
 </script>
 
 <small id="mode">Select Mode</small><br>
@@ -52,3 +62,4 @@
 </select>
 <button onClick="removeActive()" >Delete Entity</button>
 <button onClick="canvas.clear()" >Clear Canvas</button>
+<button onClick="closeSceneEditor()" >Save and Close Scene Editor</button>

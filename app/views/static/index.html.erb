@@ -18,9 +18,29 @@
   <% end %>
 </div>
 
-<%= render "canvas" if @user == 'narrator' %>
+<% if @user == 'narrator' %>
+  <div id="sceneEditor" class="overlay" style="display:none;">
+    <div class="overlay-body">
+      <h2>Scene Editor</h2>
+      <%= render "canvas" %>
+    </div>
+  </div>
+
+  <canvas id="newStaticCanvas" width="400px" height="400px" ></canvas>
+  <script>
+    var newStaticCanvas = new fabric.StaticCanvas("newStaticCanvas")
+    newStaticCanvas.setWidth(document.body.clientWidth - 10)
+    newStaticCanvas.setHeight(document.body.clientWidth - 10)
+    newStaticCanvas.setZoom(displayCanvas.width / 400)
+  </script>
+
+  <button onClick="document.getElementById('sceneEditor').style.display = 'block'">
+    Edit Scene
+  </button>
+<% end %>
 
 <%= render "messages/form", message: @message if @user %>
+
 
 <div id="end"></div>
 <script>
