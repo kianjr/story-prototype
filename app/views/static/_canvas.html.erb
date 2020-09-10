@@ -33,8 +33,7 @@
       canvas.add(oImg);
     });
   }
-
-  function closeSceneEditor(){
+function closeSceneEditor(){
     document.getElementById("sceneEditor").style.display = "none"
   }
 
@@ -51,6 +50,11 @@
 <button onClick="toggleMode()" >Toggle</button>
 <select id="background" name="" onchange="updateBackground()">
   <option value="">Select a Background</option>
+  <% Background.all.each do |background| %>
+    <option value="<%= url_for background.image %>">
+      <%= background.name %>
+    </option>
+  <% end %>
   <option value="https://res.cloudinary.com/dm3ooe9xy/image/upload/c_scale,e_grayscale,h_400,w_400/v1598901994/Story/DelightfulDwellingFloor2.png">Bedroom</option>
   <option value="https://res.cloudinary.com/dm3ooe9xy/image/upload/c_scale,e_grayscale,h_400,w_400/v1598902833/Story/PoachersCrest.jpg">Town</option>
   <option value="https://res.cloudinary.com/dm3ooe9xy/image/upload/c_scale,e_grayscale,h_400,w_400/v1598901746/Story/Arvyre_Continent_Map_-_23x16_-_Minimal.jpg">World</option>
