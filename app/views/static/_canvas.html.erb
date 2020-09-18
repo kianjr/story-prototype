@@ -8,40 +8,56 @@
   canvas.on('after:render', updateNewStaticCanvas)
 
   function writeCanvasToForm(){
-    const form_field = document.getElementById("canvas_text")
-    form_field.value = JSON.stringify(canvas)
-  }
+      const form_field = document.getElementById("canvas_text")
+      form_field.value = JSON.stringify(canvas)
+    }
 
   function toggleMode(){
-    canvas.isDrawingMode = !canvas.isDrawingMode
-    if (canvas.isDrawingMode) { document.getElementById("mode").innerText = 'Drawing Mode' }
-    else { document.getElementById("mode").innerText = 'Select Mode' }
-  }
+      canvas.isDrawingMode = !canvas.isDrawingMode
+      if (canvas.isDrawingMode) { document.getElementById("mode").innerText = 'Drawing Mode' }
+      else { document.getElementById("mode").innerText = 'Select Mode' }
+    }
 
   function removeActive(){
-    var active = canvas.getActiveObject()
-    canvas.remove(active)
-  }
+      var active = canvas.getActiveObject()
+      canvas.remove(active)
+    }
 
   function updateBackground(){
-    var url = document.getElementById("background").value
-    canvas.setBackgroundImage(url || null, canvas.renderAll.bind(canvas))
-  }
+      var url = document.getElementById("background").value
+      canvas.setBackgroundImage(url || null, canvas.renderAll.bind(canvas))
+    }
 
   function addEntity(){
-    var url = document.getElementById("entity").value
-    fabric.Image.fromURL(url, function(oImg) {
-      canvas.add(oImg);
-    });
-  }
-function closeSceneEditor(){
-    document.getElementById("sceneEditor").style.display = "none"
-  }
+      var url = document.getElementById("entity").value
+      fabric.Image.fromURL(url, function(oImg) {
+          canvas.add(oImg);
+        });
+    }
+  function closeSceneEditor(){
+      document.getElementById("sceneEditor").style.display = "none"
+    }
 
   function updateNewStaticCanvas(){
-    let JSON = document.getElementById('canvas_text').value
-    newStaticCanvas.loadFromJSON(JSON)
-  }
+      let JSON = document.getElementById('canvas_text').value
+      newStaticCanvas.loadFromJSON(JSON)
+    }
+
+  const default_svg = ` <svg xmlns="http://www.w3.org/2000/svg" height="329pt" viewBox="0 0 329.26933 329" width="329pt"><path d="m194.800781 164.769531 128.210938-128.214843c8.34375-8.339844 8.34375-21.824219 0-30.164063-8.339844-8.339844-21.824219-8.339844-30.164063 0l-128.214844 128.214844-128.210937-128.214844c-8.34375-8.339844-21.824219-8.339844-30.164063 0-8.34375 8.339844-8.34375 21.824219 0 30.164063l128.210938 128.214843-128.210938 128.214844c-8.34375 8.339844-8.34375 21.824219 0 30.164063 4.15625 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921875-2.089844 15.082031-6.25l128.210937-128.214844 128.214844 128.214844c4.160156 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921874-2.089844 15.082031-6.25 8.34375-8.339844 8.34375-21.824219 0-30.164063zm0 0"/></svg> `
+
+  function addEntity(svg = default_svg){
+      var group = [];
+      fabric.loadSVGFromString(svg, function(objects,options)
+          {
+              var loadedObjects = new fabric.Group(group);
+              canvas.add(loadedObjects);
+              canvas.renderAll();
+            },
+          function(item, object) {
+              object.set('id', item.getAttribute('id'));
+              group.push(object);
+            });
+    }
 
 </script>
 
@@ -51,7 +67,7 @@ function closeSceneEditor(){
   <option value="">Select a Background</option>
   <% Background.all.each do |background| %>
     <option value="<%= url_for background.image %>">
-      <%= background.name %>
+    <%= background.name %>
     </option>
   <% end %>
   <option value="https://res.cloudinary.com/dm3ooe9xy/image/upload/c_scale,e_grayscale,h_400,w_400/v1598901994/Story/DelightfulDwellingFloor2.png">Bedroom</option>
@@ -63,6 +79,7 @@ function closeSceneEditor(){
   <option value="https://res.cloudinary.com/dm3ooe9xy/image/upload/v1598901490/Story/heroes_1_2020-08-31T19_03_00.702Z.png">Swishy cloak guy</option>
   <option value="https://res.cloudinary.com/dm3ooe9xy/image/upload/v1598900554/Story/heroes_9_2020-08-31T19_01_10.924Z.png">Angry orc</option>
 </select>
+<button onClick="addEntity()" >Add Entity</button>
 <button onClick="removeActive()" >Delete Entity</button>
 <button onClick="canvas.clear()" >Clear Canvas</button>
 <button onClick="closeSceneEditor()" >Save and Close Scene Editor</button>
