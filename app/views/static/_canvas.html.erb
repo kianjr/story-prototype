@@ -4,7 +4,8 @@
   canvas.setWidth(document.body.clientWidth - 10)
   canvas.setHeight(document.body.clientWidth - 10)
   canvas.setZoom(canvas.width / 400)
-
+  canvas.on('after:render', writeCanvasToForm)
+  canvas.on('after:render', updateNewStaticCanvas)
 
   function writeCanvasToForm(){
     const form_field = document.getElementById("canvas_text")
@@ -42,8 +43,6 @@ function closeSceneEditor(){
     newStaticCanvas.loadFromJSON(JSON)
   }
 
-  canvas.on('after:render', writeCanvasToForm)
-  canvas.on('after:render', updateNewStaticCanvas)
 </script>
 
 <small id="mode">Select Mode</small><br>
