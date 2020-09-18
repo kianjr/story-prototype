@@ -1,7 +1,10 @@
 <div class="header">
-  <h2>Story Prototype</h2>
-  <p><%= loginStatus(@user) %></p>
+  <h2> <%= link_to 'Story Prototype', root_path %> </h2>
   <div>
+    <%= link_to 'Entities', entities_path %>
+  </div>
+  <div>
+    <p><%= loginStatus(@user) %></p>
     <%= button_to "Sign in as Narrator", '/sessions/create/narrator' unless @user == 'narrator' %>
     <%= button_to "Sign in as Hero", '/sessions/create/hero' unless @user == 'hero' %>
     <%= button_to "Logout", sessions_destroy_path, method: :delete if @user %>
