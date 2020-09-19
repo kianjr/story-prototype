@@ -11,8 +11,7 @@
 <% if @user == 'narrator' %>
   <div id="sceneEditor" class="overlay" style="display:none;">
     <div class="overlay-body">
-      <h2>Scene Editor</h2>
-      <%= render "canvas" %>
+      <%= render "scene_editor" %>
     </div>
   </div>
 
@@ -24,7 +23,7 @@
     newStaticCanvas.setZoom(displayCanvas.width / 400)
   </script>
 
-  <button onClick="document.getElementById('sceneEditor').style.display = 'block'">
+  <button onClick="byId('sceneEditor').style.display = 'block'">
     Edit Scene
   </button>
 <% end %>
