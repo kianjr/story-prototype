@@ -15,7 +15,7 @@
     <% @entities.each do |entity| %>
       <tr>
         <td><%= entity.label %></td>
-        <td><%= truncate(entity.svg) %></td>
+        <td><%= raw entity.svg_scaled 50 %></td>
         <td><%= link_to 'Show', entity %></td>
         <td><%= link_to 'Edit', edit_entity_path(entity) %></td>
         <td><%= link_to 'Destroy', entity, method: :delete, data: { confirm: 'Are you sure?' } %></td>

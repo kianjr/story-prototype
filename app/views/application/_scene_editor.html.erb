@@ -37,10 +37,9 @@
       newStaticCanvas.loadFromJSON(JSON)
     }
 
-  function addEntity(){
+  function addEntity(svgString){
       var group = [];
-      var svg = byId("entity").value
-      fabric.loadSVGFromString(svg, function(objects,options)
+      fabric.loadSVGFromString(svgString, function(objects,options)
           {
               var loadedObjects = new fabric.Group(group);
               canvas.add(loadedObjects);
@@ -56,6 +55,7 @@
 
 <small id="mode">Select Mode</small><br>
 <button onClick="toggleMode()" >Toggle</button>
+
 <select id="background" name="" onchange="updateBackground()">
   <option value="">Select a Background</option>
   <% Background.all.each do |background| %>
@@ -68,15 +68,14 @@
   <option value="https://res.cloudinary.com/dm3ooe9xy/image/upload/c_scale,e_grayscale,h_400,w_400/v1598901746/Story/Arvyre_Continent_Map_-_23x16_-_Minimal.jpg">World</option>
 </select>
 
-<select id="entity" name="" onchange="addEntity()">
-  <option value="">Add an Entity</option>
-  <% Entity.all.each do |entity| %>
-    <option value="<%= entity.svg %>">
-    <%= entity.label %>
-    </option>
-  <% end %>
-</select>
-
 <button onClick="removeActive()" >Delete Entity</button>
 <button onClick="canvas.clear()" >Clear Canvas</button>
 <button onClick="closeSceneEditor()" >Save and Close Scene Editor</button>
+
+<h3>Add Entity</h3>
+<%Entity.all.each do |entity| %>
+  <button onClick="addEntity(`<%= entity.svg %>`)">
+    <%= raw entity.svg_scaled 100 %>
+    <%= entity.label %>
+  </button>
+<% end %>
