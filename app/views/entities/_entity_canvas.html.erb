@@ -7,12 +7,18 @@
   canvas.setHeight(document.body.clientWidth - 10)
   canvas.setZoom(canvas.width / 400)
   canvas.on('after:render', writeCanvasToForm)
-  <% if entity %> canvas.loadFromJSON('<%= raw(entity.svg) %>') <% end %>
+  canvas.on('after:render', writeSVGToForm)
+    <% if entity %> canvas.loadFromJSON('<%= raw(entity.canvas) %>') <% end %>
 
     function writeCanvasToForm(){
-        const form_field = document.getElementById("entity_svg")
-        form_field.value = JSON.stringify(canvas)
+        const canvas_field = document.getElementById("entity_canvas")
+        canvas_field.value = JSON.stringify(canvas)
       }
+
+  function writeSVGToForm(){
+      const svg_field = document.getElementById("entity_svg")
+      svg_field.value = canvas.toSVG({withoutPreamble: true})
+    }
 
   function addCircle(){
       var circle = new fabric.Circle({fill: 'grey', radius: 50})
