@@ -2,7 +2,7 @@
 <button onClick="addCircle()">Add Circle</button>
 <button onClick="addRect()">Add Rectangle</button>
 <script>
-  const canvas = new fabric.Canvas("canvas")
+  var canvas = new fabric.Canvas("canvas")
   canvas.setWidth(document.body.clientWidth - 10)
   canvas.setHeight(document.body.clientWidth - 10)
   canvas.setZoom(canvas.width / 400)
@@ -11,13 +11,11 @@
     <% if entity %> canvas.loadFromJSON('<%= raw(entity.canvas) %>') <% end %>
 
     function writeCanvasToForm(){
-        const canvas_field = document.getElementById("entity_canvas")
-        canvas_field.value = JSON.stringify(canvas)
+        byId('entity_canvas').value = JSON.stringify(canvas)
       }
 
   function writeSVGToForm(){
-      const svg_field = document.getElementById("entity_svg")
-      svg_field.value = canvas.toSVG({withoutPreamble: true})
+      byId("entity_svg").value = canvas.toSVG({withoutPreamble: true})
     }
 
   function addCircle(){

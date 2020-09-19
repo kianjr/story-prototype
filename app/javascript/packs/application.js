@@ -17,5 +17,6 @@ require("channels")
 
 const fabric = require("fabric").fabric
 
-const canvas = new fabric.Canvas("canvas")
-canvas.isDrawingMode = true
+window.byId = function(id){
+  return document.getElementById(id)
+}

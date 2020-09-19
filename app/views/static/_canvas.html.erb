@@ -1,6 +1,6 @@
 <canvas id="canvas" width="400" height="400"></canvas>
 <script>
-  const canvas = new fabric.Canvas("canvas")
+  var canvas = new fabric.Canvas("canvas")
   canvas.setWidth(document.body.clientWidth - 10)
   canvas.setHeight(document.body.clientWidth - 10)
   canvas.setZoom(canvas.width / 400)
@@ -8,14 +8,13 @@
   canvas.on('after:render', updateNewStaticCanvas)
 
   function writeCanvasToForm(){
-      const form_field = document.getElementById("canvas_text")
-      form_field.value = JSON.stringify(canvas)
+      byId("canvas_text").value = JSON.stringify(canvas)
     }
 
   function toggleMode(){
       canvas.isDrawingMode = !canvas.isDrawingMode
-      if (canvas.isDrawingMode) { document.getElementById("mode").innerText = 'Drawing Mode' }
-      else { document.getElementById("mode").innerText = 'Select Mode' }
+      if (canvas.isDrawingMode) { byId("mode").innerText = 'Drawing Mode' }
+      else { byId("mode").innerText = 'Select Mode' }
     }
 
   function removeActive(){
@@ -24,22 +23,22 @@
     }
 
   function updateBackground(){
-      var url = document.getElementById("background").value
+      var url = byId("background").value
       canvas.setBackgroundImage(url || null, canvas.renderAll.bind(canvas))
     }
 
   function closeSceneEditor(){
-      document.getElementById("sceneEditor").style.display = "none"
+      byId("sceneEditor").style.display = "none"
     }
 
   function updateNewStaticCanvas(){
-      let JSON = document.getElementById('canvas_text').value
+      let JSON = byId("canvas_text").value
       newStaticCanvas.loadFromJSON(JSON)
     }
 
   function addEntity(){
       var group = [];
-      var svg = document.getElementById("entity").value
+      var svg = byId("entity").value
       fabric.loadSVGFromString(svg, function(objects,options)
           {
               var loadedObjects = new fabric.Group(group);
