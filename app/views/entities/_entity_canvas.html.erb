@@ -2,6 +2,7 @@
 <button onClick="addCircle()">Add Circle</button>
 <button onClick="addRect()">Add Rectangle</button>
 <script>
+  fabric.Object.prototype.noScaleCache = false;
   var canvas = new fabric.Canvas("canvas")
   canvas.setWidth(document.body.clientWidth - 10)
   canvas.setHeight(document.body.clientWidth - 10)
@@ -19,13 +20,28 @@
     }
 
   function addCircle(){
-      var circle = new fabric.Circle({fill: 'grey', radius: 50})
+      var circle = new fabric.Circle({
+          fill: '',
+          stroke: 'black',
+          strokeWidth: 1,
+          strokeUniform: 'true',
+          radius: 50
+        })
       canvas.add(circle)
     }
 
   function addRect(){
-      var rect = new fabric.Rect({fill: 'grey', width: 50, height:50})
+      var rect = new fabric.Rect({
+          fill: '',
+          stroke: 'black',
+          strokeWidth: 1,
+          strokeUniform: 'true',
+          width: 100,
+          height: 100
+        })
       canvas.add(rect)
     }
 
 </script>
+
+<%# go here for info about the uniform stroke widths http://fabricjs.com/stroke-uniform %>
