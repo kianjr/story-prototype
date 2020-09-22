@@ -6,8 +6,8 @@
   </div>
   <div>
     <p><%= loginStatus(@user) %></p>
-    <%= button_to "Sign in as Narrator", '/sessions/create/narrator' unless @user == 'narrator' %>
-    <%= button_to "Sign in as Hero", '/sessions/create/hero' unless @user == 'hero' %>
+    <%= button_to "Sign in as Narrator", '/sessions/create/narrator' unless @user %>
+    <%= button_to "Sign in as Hero", '/sessions/create/hero' unless @user %>
     <%= button_to "Logout", sessions_destroy_path, method: :delete if @user %>
   </div>
 </div>
