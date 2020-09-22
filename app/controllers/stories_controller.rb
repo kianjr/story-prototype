@@ -11,6 +11,7 @@ class StoriesController < ApplicationController
   # GET /stories/1.json
   def show
     @messages = @story.messages
+    @message = @story.messages.new
   end
 
   # GET /stories/new

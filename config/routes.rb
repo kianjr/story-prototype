@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
-  resources :stories
+  resources :stories do
+    resources :messages, shallow: true
+  end
   resources :entities
   resources :backgrounds
   post 'sessions/create/:user', to: 'sessions#create'
   delete 'sessions/destroy'
   get 'static/index'
-  resources :messages
   root 'static#index'
 end

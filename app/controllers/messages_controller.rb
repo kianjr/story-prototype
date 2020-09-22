@@ -14,7 +14,8 @@ class MessagesController < ApplicationController
 
   # GET /messages/new
   def new
-    @message = Message.new
+    @story = Story.find(params[:story_id])
+    @message = @story.messages.new
   end
 
   # GET /messages/1/edit
@@ -24,12 +25,13 @@ class MessagesController < ApplicationController
   # POST /messages
   # POST /messages.json
   def create
-    @message = Message.new(message_params)
+    @story = Story.find(params[:story_id])
+    @message = @story.messages.new(message_params)
     @message.user = session[:user]
 
     respond_to do |format|
       if @message.save
-        format.html { redirect_to root_url, notice: 'Message was successfully created.' }
+        format.html { redirect_to @story, notice: 'Message was successfully created.' }
         format.json { render :show, status: :created, location: @message }
       else
         format.html { render :new }
@@ -57,7 +59,7 @@ class MessagesController < ApplicationController
   def destroy
     @message.destroy
     respond_to do |format|
-      format.html { redirect_to messages_url, notice: 'Message was successfully destroyed.' }
+      format.html { redirect_to story_messages_url(@message.story), notice: 'Message was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
