@@ -10,6 +10,8 @@ class ScenesController < ApplicationController
   # GET /scenes/1
   # GET /scenes/1.json
   def show
+    parsed_json = JSON.parse(@scene.json)
+    @entities = parsed_json["entities"]
   end
 
   # GET /scenes/new

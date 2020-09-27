@@ -16,6 +16,8 @@ require("channels")
 // const imagePath = (name) => images(name, true)
 
 const fabric = require("fabric").fabric
+const d3 = require("d3")
+window.d3 = d3
 
 window.byId = function(id){
   return document.getElementById(id)

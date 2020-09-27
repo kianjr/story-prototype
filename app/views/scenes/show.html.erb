@@ -1,8 +1,25 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Json:</strong>
-  <%= @scene.json %>
+<script>
+  data = JSON.parse(<%= raw @scene.json.to_json %>)
+  var svg = d3.select("body")
+    .append("svg")
+    .attr("height", 100)
+    .attr("width", 100)
+    .attr("viewBox", "0 0 100 100")
+    .style("background-color", "grey")
+
+  var entities = svg.selectAll("path")
+    .data(data.entities)
+    .enter()
+    .append("path")
+    .attr("d", (d) => d.path)
+    .attr("transform", (d) => `translate(${d.x} ${d.y})`)
+</script>
+
+<p> 
+<strong>Json:</strong>
+<%= @scene.json %>
 </p>
 
 <%= link_to 'Edit', edit_scene_path(@scene) %> |
