@@ -1,6 +1,43 @@
 <h1>Editing Scene</h1>
 
+<div class="svgContainer"></div>
+<div class="entityController">
+  <h2>Entities</h2>
+</div>
+
 <%= render 'form', scene: @scene %>
+
 
 <%= link_to 'Show', @scene %> |
 <%= link_to 'Back', scenes_path %>
+
+<script>
+  var width = d3.select("body").node().getBoundingClientRect().width
+  data = JSON.parse(<%= raw @scene.json.to_json %>)
+  var svg = d3.select(".svgContainer")
+    .append("svg")
+    .attr("height", width)
+    .attr("width", width)
+    .attr("viewBox", "0 0 100 100")
+    .style("background-color", "grey")
+
+  var entities = svg.selectAll("path")
+    .data(data.entities)
+    .enter()
+    .append("path")
+    .attr("d", (d) => d.path)
+    .attr("transform", (d) => `translate(${d.x} ${d.y})`)
+
+  var entityControllers = d3.select(".entityController")
+    .selectAll("div.entityController")
+    .data(data.entities)
+    .enter()
+    .append("svg")
+    .attr("viewBox", "0 0 100 100")
+    .style("border", "1px solid black")
+    .attr("height", width / 6)
+    .attr("width", width / 6)
+    .append("path")
+    .attr("d", (d) => d.path)
+
+</script>
