@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :scenes
   resources :stories do
     resources :messages, shallow: true
   end
