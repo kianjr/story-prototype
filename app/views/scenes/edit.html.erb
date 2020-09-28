@@ -5,6 +5,8 @@
 <div class="entitySelectors"> </div>
 <button onclick="addEntity()">Add Entity</button><br>
 <button onclick="removeEntity(selectedEntityKey)">Remove Selected Entity</button><br>
+<button onclick="startMoveMode(selectedEntity)">Move Selected Entity</button><br>
+<button onclick="stopMoveMode()">Stop Moving</button><br>
 
 <%= render 'form', scene: @scene %>
 
@@ -18,6 +20,7 @@
   var key = 0;
   data.entities.forEach((entity) => entity.key = key++)
   var selectedEntityKey = null;
+  var selectedEntity = null;
 
   var svg = d3.select(".svgContainer")
     .append("svg")
@@ -57,14 +60,15 @@
 
   function selectEntity(event, d) {
       selectedEntityKey = d.key
+      selectedEntity = d3.select(".svgContainer")
+        .selectAll("path")
+        .filter((d) => d.key === selectedEntityKey) 
 
       d3.selectAll(".entitySelector").classed("active", false)
       d3.selectAll("path").classed("active", false)
 
       d3.select(this).classed("active", true)
-      d3.selectAll("path")
-        .filter((d) => d.key === selectedEntityKey) 
-        .classed("active", true)
+      selectedEntity.classed("active", true)
     }
 
   function addEntity(){
@@ -97,6 +101,37 @@
         .data(data.entities, (d) => d.key)
         .exit()
         .remove()
+
+      updateJSON()
+    }
+
+  function startMoveMode(selectedEntity){
+
+      d3.select(".svgContainer").selectAll("path")
+        .style("opacity", .5)
+
+      selectedEntity
+        .style("opacity", 1)
+        .style("fill", 'blue')
+        .call(d3.drag()
+            .on("drag", dragged))
+    }
+
+  function dragged(event, d) {
+      // Update the position with the delta x and y applied by the drag:
+      d.x += event.dx;
+      d.y += event.dy;
+      d3.select(this)
+        .attr("transform", (d) => `translate(${d.x} ${d.y})`)
+    }
+
+  function stopMoveMode(){
+      d3.select(".svgContainer").selectAll("path")
+        .style("opacity", 1)
+
+      selectedEntity
+        .style("fill", "black")
+        .call(d3.drag().on("drag", null))
 
       updateJSON()
     }
