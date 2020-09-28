@@ -40,7 +40,7 @@
         .enter()
         .append("button")
         .attr("class", "entitySelector")
-        .on("click", (event, d) => { selectedEntityKey = d.key })
+        .on("click", selectEntity )
 
       entitySelectors
         .append("svg")
@@ -53,6 +53,18 @@
       entitySelectors
         .append("p")
         .text((d) => d.label )
+    }
+
+  function selectEntity(event, d) {
+      selectedEntityKey = d.key
+
+      d3.selectAll(".entitySelector").classed("active", false)
+      d3.selectAll("path").classed("active", false)
+
+      d3.select(this).classed("active", true)
+      d3.selectAll("path")
+        .filter((d) => d.key === selectedEntityKey) 
+        .classed("active", true)
     }
 
   function addEntity(){

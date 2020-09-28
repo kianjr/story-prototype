@@ -27,3 +27,12 @@ body {
   overflow: auto;
   white-space: nowrap;
 }
+
+.entitySelector.active {
+  background-color: lightblue;
+}
+
+path.active {
+  stroke: lightblue;
+}
+
