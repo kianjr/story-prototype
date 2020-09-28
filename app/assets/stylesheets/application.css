@@ -51,6 +51,10 @@ path {
   vector-effect: non-scaling-stroke;
 }
 
+path.dragging {
+  fill: blue;
+}
+
 path.active {
   stroke: lightblue;
 }

@@ -26,8 +26,10 @@
     .append('path')
     .attr("d", (d) => d.path)
     .attr("transform", (d) => `translate(${d.x} ${d.y}) scale(${d.scale})`)
+    .on("click", selectActive)
     .call(d3.drag()
-        .on("drag", dragged))
+        .on("drag", dragged)
+        .on("end", dragEnd))
 
   function dragged(event, d) {
       // Update the position with the delta x and y applied by the drag:
@@ -35,6 +37,15 @@
       d.y += event.dy;
       d3.select(this)
         .attr("transform", (d) => `translate(${d.x} ${d.y}) scale(${d.scale})`)
+        .classed("dragging", true)
+    }
+
+  function dragEnd(event, d) {
+      d3.select(this)
+        .classed("dragging", false)
+    }
+
+  function selectActive(event, d){
     }
 </script>
 
