@@ -69,6 +69,6 @@ class EntitiesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def entity_params
-      params.require(:entity).permit(:svg, :canvas, :label)
+      params.require(:entity).permit(:label, :json)
     end
 end

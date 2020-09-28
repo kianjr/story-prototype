@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_21_224530) do
+ActiveRecord::Schema.define(version: 2020_09_28_175850) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -41,11 +41,10 @@ ActiveRecord::Schema.define(version: 2020_09_21_224530) do
   end
 
   create_table "entities", force: :cascade do |t|
-    t.text "svg"
     t.string "label"
+    t.text "json"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.text "canvas"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -56,6 +55,12 @@ ActiveRecord::Schema.define(version: 2020_09_21_224530) do
     t.text "canvas"
     t.integer "story_id"
     t.index ["story_id"], name: "index_messages_on_story_id"
+  end
+
+  create_table "scenes", force: :cascade do |t|
+    t.text "json"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "stories", force: :cascade do |t|

@@ -14,8 +14,8 @@ class EntitiesTest < ApplicationSystemTestCase
     visit entities_url
     click_on "New Entity"
 
+    fill_in "Json", with: @entity.json
     fill_in "Label", with: @entity.label
-    fill_in "Svg", with: @entity.svg
     click_on "Create Entity"
 
     assert_text "Entity was successfully created"
@@ -26,8 +26,8 @@ class EntitiesTest < ApplicationSystemTestCase
     visit entities_url
     click_on "Edit", match: :first
 
+    fill_in "Json", with: @entity.json
     fill_in "Label", with: @entity.label
-    fill_in "Svg", with: @entity.svg
     click_on "Update Entity"
 
     assert_text "Entity was successfully updated"

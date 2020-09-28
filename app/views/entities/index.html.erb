@@ -6,7 +6,7 @@
   <thead>
     <tr>
       <th>Label</th>
-      <th>Svg</th>
+      <th>Json</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -15,7 +15,7 @@
     <% @entities.each do |entity| %>
       <tr>
         <td><%= entity.label %></td>
-        <td><%= raw entity.svg_scaled 50 %></td>
+        <td><%= entity.json %></td>
         <td><%= link_to 'Show', entity %></td>
         <td><%= link_to 'Edit', edit_entity_path(entity) %></td>
         <td><%= link_to 'Destroy', entity, method: :delete, data: { confirm: 'Are you sure?' } %></td>
