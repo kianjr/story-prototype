@@ -18,15 +18,19 @@
     .attr("height", width)
     .attr("width", width)
 
-  data.layers.forEach((layer) => {
-      d3.select("#layers")
-        .selectAll("path")
+  var layers = d3.select("#layers")
+        .selectAll('g')
         .data(data.layers)
         .enter()
-        .append("path")
-        .attr("d", (d) => d.path)
-        // .attr("d", d3.symbol(d3.symbolSquare))
-    })
+        .append('g')
+
+  var shapes = layers
+    .selectAll('path')
+    .data((d) => d.shapes)
+    .enter()
+    .append('path')
+    .attr("d", (d) => d.path)
+    .attr("transform", (d) => `translate(${d.x} ${d.y}) scale(${d.scale})`)
 </script>
 
 <p>

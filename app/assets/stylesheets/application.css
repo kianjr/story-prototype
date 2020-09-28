@@ -47,7 +47,8 @@ svg {
 path {
   fill: none;
   stroke: #444;
-  stroke-width: .5;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
 }
 
 path.active {
