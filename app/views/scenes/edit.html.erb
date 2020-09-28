@@ -1,9 +1,9 @@
 <h1>Editing Scene</h1>
 
 <div class="svgContainer"></div>
-<div class="entityController">
-  <h2>Entities</h2>
-</div>
+<h2>Entities</h2>
+<div class="entitySelectors"> </div>
+<button onclick="addEntity()">Add Entity</button><br>
 
 <%= render 'form', scene: @scene %>
 
@@ -14,6 +14,7 @@
 <script>
   var width = d3.select("body").node().getBoundingClientRect().width
   data = JSON.parse(<%= raw @scene.json.to_json %>)
+
   var svg = d3.select(".svgContainer")
     .append("svg")
     .attr("height", width)
@@ -21,23 +22,45 @@
     .attr("viewBox", "0 0 100 100")
     .style("background-color", "grey")
 
-  var entities = svg.selectAll("path")
-    .data(data.entities)
-    .enter()
-    .append("path")
-    .attr("d", (d) => d.path)
-    .attr("transform", (d) => `translate(${d.x} ${d.y})`)
+  function addEntitiesToDOM(){
+      var svgEntities = svg.selectAll("path")
+        .data(data.entities)
+        .enter()
+        .append("path")
+        .attr("d", (d) => d.path)
+        .attr("transform", (d) => `translate(${d.x} ${d.y})`)
 
-  var entityControllers = d3.select(".entityController")
-    .selectAll("div.entityController")
-    .data(data.entities)
-    .enter()
-    .append("svg")
-    .attr("viewBox", "0 0 100 100")
-    .style("border", "1px solid black")
-    .attr("height", width / 6)
-    .attr("width", width / 6)
-    .append("path")
-    .attr("d", (d) => d.path)
+      var entitySelectors = d3.select(".entitySelectors")
+        .selectAll("button.entitySelector")
+        .data(data.entities)
+        .enter()
+        .append("button")
+        .attr("class", "entitySelector")
 
+      entitySelectors
+        .append("svg")
+        .attr("viewBox", "0 0 100 100")
+        .attr("height", 60)
+        .attr("width", 60)
+        .append("path")
+        .attr("d", (d) => d.path)
+
+      entitySelectors
+        .append("p")
+        .text((d) => d.label )
+    }
+
+  function addEntity(){
+      var newEntity = {
+          id: data.entities.length + 1,
+          label: "tree",
+          path: "M13 24.003h-2v-4.083c-2.836-.477-5-2.946-5-5.917 0-1.562.022-1.226 5.076-13.385.016 0 .223-.615.924-.615.697 0 .909.613.925.613 4.656 11.172 5.075 11.546 5.075 13.387 0 2.971-2.164 5.44-5 5.917v4.083z",
+          x: Math.random() * 100,
+          y: Math.random() * 100
+        }
+      data.entities.push(newEntity)
+      addEntitiesToDOM()
+    }
+
+  addEntitiesToDOM()
 </script>
