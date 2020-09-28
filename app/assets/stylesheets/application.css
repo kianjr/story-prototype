@@ -40,6 +40,16 @@ button {
   background-color: lightblue;
 }
 
+svg {
+  background-color: #ddd;
+}
+
+path {
+  fill: none;
+  stroke: #444;
+  stroke-width: .5;
+}
+
 path.active {
   stroke: lightblue;
 }
