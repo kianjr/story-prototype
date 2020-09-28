@@ -23,6 +23,14 @@ body {
   max-width: 600px;
 }
 
+button {
+ font-size: 20px;
+ padding: 5px;
+ border: 1px solid #ccc;
+ border-radius: 5px;
+ margin: 5px;
+}
+
 .entitySelectors {
   overflow: auto;
   white-space: nowrap;
