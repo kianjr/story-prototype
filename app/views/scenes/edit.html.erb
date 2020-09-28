@@ -78,6 +78,9 @@
         }
       data.entities.push(newEntity)
       addEntitiesToDOM()
+
+      updateJSON()
+
     }
 
   function removeEntity(key){
@@ -94,6 +97,12 @@
         .data(data.entities, (d) => d.key)
         .exit()
         .remove()
+
+      updateJSON()
+    }
+
+  function updateJSON(){
+      byId("scene_json").value = JSON.stringify(data)
     }
 
   addEntitiesToDOM()
