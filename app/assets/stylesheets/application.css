@@ -45,7 +45,7 @@ svg {
 }
 
 path {
-  fill: none;
+  fill: #0000; /* transparent fill for dragging */
   stroke: #444;
   stroke-width: 2;
   vector-effect: non-scaling-stroke;

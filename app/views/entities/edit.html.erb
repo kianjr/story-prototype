@@ -1,5 +1,50 @@
 <h1>Editing Entity</h1>
 
+<svg viewBox="-50 -50 100 100">
+  <filter x="-2%" y="-2%" width="104%" height="104%" filterUnits="objectBoundingBox" id="pencilTexture3">
+  <feTurbulence type="fractalNoise" baseFrequency="2.5" numOctaves="5" stitchTiles="stitch" result="f1"/>
+  <feColorMatrix type="matrix" values="0 0 0 0 0, 0 0 0 0 0, 0 0 0 0 0, 0 0 0 -1.5 1.5" result="f2"/>
+  <feComposite operator="in" in2="f2b" in="SourceGraphic" result="f3"/>
+  <feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="3" result="noise"/>
+  <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale=".15" in="f3" result="f4"/>
+  </filter>
+  <g id="layers" filter="url(#pencilTexture3)"></g>
+</svg>
+
+<div id="shapeSelectors"></div>
+
+<script>
+  var width = d3.select("body").node().getBoundingClientRect().width
+  data = JSON.parse(<%= raw @entity.json.to_json %>)
+  var svg = d3.select("svg")
+    .attr("height", width)
+    .attr("width", width)
+
+  var layers = d3.select("#layers")
+    .selectAll('g')
+    .data(data.layers)
+    .enter()
+    .append('g')
+
+  var shapes = layers
+    .selectAll('path')
+    .data((d) => d.shapes)
+    .enter()
+    .append('path')
+    .attr("d", (d) => d.path)
+    .attr("transform", (d) => `translate(${d.x} ${d.y}) scale(${d.scale})`)
+    .call(d3.drag()
+        .on("drag", dragged))
+
+  function dragged(event, d) {
+      // Update the position with the delta x and y applied by the drag:
+      d.x += event.dx;
+      d.y += event.dy;
+      d3.select(this)
+        .attr("transform", (d) => `translate(${d.x} ${d.y}) scale(${d.scale})`)
+    }
+</script>
+
 <%= render 'form', entity: @entity %>
 
 <%= link_to 'Show', @entity %> |
