@@ -19,11 +19,12 @@
     .attr("width", width)
 
   var entities = d3.select("#entityGroup")
-    .selectAll("g")
+    .selectAll("g.entity")
     .data(data.entities)
     .enter()
     .append("g")
-    .attr("transform", (d) => `translate(${d.x} ${d.y})`)
+    .attr("class", "entity")
+    .attr("transform", (d) => `translate(${d.x} ${d.y}) scale(${d.scale})`)
 
   var layers = entities
     .selectAll("g")

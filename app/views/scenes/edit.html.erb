@@ -6,7 +6,9 @@
 <h2>Entities</h2>
 <div class="entitySelectors"> </div>
 <button onclick="addEntity()">Add Entity</button><br>
-<button onclick="removeEntity(selectedEntity.key)">Remove Selected Entity</button><br>
+<button onclick="scaleEntity(1.2)">Grow</button><br>
+<button onclick="scaleEntity(0.8)">Shrink</button><br>
+<button onclick="removeEntity(selectedEntityDatum.key)">Remove Selected Entity</button><br>
 
 <%= render 'form', scene: @scene %>
 
@@ -21,7 +23,8 @@
 
   data.entities.forEach((entity) => entity.key = key++)
 
-  var selectedEntity = null;
+  var selectedEntityDatum = null;
+  var selectedEntitySvg = null;
 
   var svg = d3.select("svg")
     .attr("height", width)
@@ -36,7 +39,7 @@
         .enter()
         .append("g")
         .attr("class", "entity")
-        .attr("transform", (d) => `translate(${d.x} ${d.y})`)
+        .attr("transform", (d) => `translate(${d.x} ${d.y}) scale(${d.scale})`)
         .attr("id", (d) => d.key)
         .on("click", selectEntity)
         .call(d3.drag()
@@ -96,7 +99,8 @@
     }
 
   function selectEntity(event, d) {
-      selectedEntity = d
+      selectedEntityDatum = d
+      selectedEntitySvg = d3.select(this)
       d3.selectAll(".entity").classed("selected", false)
       d3.select(this).classed("selected", true)
     }
@@ -112,6 +116,13 @@
 
       updateJSON()
 
+    }
+
+  function scaleEntity(num){
+      selectedEntityDatum.scale *= num
+      selectedEntitySvg
+        .attr("transform", (d) => `translate(${d.x} ${d.y}) scale(${d.scale})`)
+      updateJSON()
     }
 
   function removeEntity(key){
