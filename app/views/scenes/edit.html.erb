@@ -7,8 +7,6 @@
 <div class="entitySelectors"> </div>
 <button onclick="addEntity()">Add Entity</button><br>
 <button onclick="removeEntity(selectedEntityKey)">Remove Selected Entity</button><br>
-<button onclick="startMoveMode(selectedEntity)">Move Selected Entity</button><br>
-<button onclick="stopMoveMode()">Confirm Move</button><br>
 
 <%= render 'form', scene: @scene %>
 
@@ -136,29 +134,6 @@
         .data(data.entities, (d) => d.key)
         .exit()
         .remove()
-
-      updateJSON()
-    }
-
-  function startMoveMode(selectedEntity){
-
-      d3.select(".svgContainer").selectAll("path")
-        .style("opacity", .5)
-
-      selectedEntity
-        .style("opacity", 1)
-        .style("fill", 'blue')
-        .call(d3.drag()
-            .on("drag", dragged))
-    }
-
-  function stopMoveMode(){
-      d3.select(".svgContainer").selectAll("path")
-        .style("opacity", 1)
-
-      selectedEntity
-        .style("fill", "black")
-        .call(d3.drag().on("drag", null))
 
       updateJSON()
     }
