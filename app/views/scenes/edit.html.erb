@@ -6,7 +6,7 @@
 <h2>Entities</h2>
 <div class="entitySelectors"> </div>
 <button onclick="addEntity()">Add Entity</button><br>
-<button onclick="removeEntity(selectedEntityKey)">Remove Selected Entity</button><br>
+<button onclick="removeEntity(selectedEntity.key)">Remove Selected Entity</button><br>
 
 <%= render 'form', scene: @scene %>
 
@@ -21,15 +21,16 @@
 
   data.entities.forEach((entity) => entity.key = key++)
 
-  var selectedEntityKey = null;
   var selectedEntity = null;
 
   var svg = d3.select("svg")
     .attr("height", width)
     .attr("width", width)
 
+  var entities
+
   function addEntitiesToDOM(){
-      var entities = d3.select("#entityGroup")
+      entities = d3.select("#entityGroup")
         .selectAll("g.entity")
         .data(data.entities)
         .enter()
@@ -37,10 +38,10 @@
         .attr("class", "entity")
         .attr("transform", (d) => `translate(${d.x} ${d.y})`)
         .attr("id", (d) => d.key)
+        .on("click", selectEntity)
         .call(d3.drag()
             .on("drag", dragged)
             .on("end", dragEnd))
-      console.log(entities)
 
       var layers = entities
         .selectAll("g.layer")
@@ -95,16 +96,9 @@
     }
 
   function selectEntity(event, d) {
-      selectedEntityKey = d.key
-      selectedEntity = d3.select(".svgContainer")
-        .selectAll("path")
-        .filter((d) => d.key === selectedEntityKey) 
-
-      d3.selectAll(".entitySelector").classed("active", false)
-      d3.selectAll("path").classed("active", false)
-
-      d3.select(this).classed("active", true)
-      selectedEntity.classed("active", true)
+      selectedEntity = d
+      d3.selectAll(".entity").classed("selected", false)
+      d3.select(this).classed("selected", true)
     }
 
   function addEntity(){
@@ -124,8 +118,7 @@
       var index = data.entities.findIndex((e) => e.key === key)
       data.entities.splice(index, 1)
 
-      d3.select(".svgContainer")
-        .selectAll("path")
+      d3.selectAll(".entity")
         .data(data.entities, (d) => d.key)
         .exit()
         .remove()

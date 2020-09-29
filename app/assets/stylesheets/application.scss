@@ -55,6 +55,13 @@ path {
   fill: #4444ff50;
 }
 
+.entity {
+  &.selected path {
+    stroke: blue;
+    stroke-width: 4;
+  }
+}
+
 path.active {
   stroke: lightblue;
 }
