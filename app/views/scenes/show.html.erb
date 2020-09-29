@@ -19,12 +19,29 @@
     .attr("width", width)
 
   var entities = d3.select("#entityGroup")
-    .selectAll("path")
+    .selectAll("g")
     .data(data.entities)
     .enter()
-    .append("path")
-    .attr("d", (d) => d.path)
+    .append("g")
     .attr("transform", (d) => `translate(${d.x} ${d.y})`)
+
+  var layers = entities
+    .selectAll("g")
+    .data((d) => d.layers)
+    .enter()
+    .append('g')
+
+
+  var shapes = layers
+    .selectAll('path')
+    .data((d) => d.shapes)
+    .enter()
+    .append('path')
+    .attr("d", (d) => d.path)
+    .attr("transform", (d) => `translate(${d.x} ${d.y}) scale(${d.scale})`)
+
+    <%# .attr("d", (d) => d.path) %>
+    <%# .attr("transform", (d) => `translate(${d.x} ${d.y})`) %>
 </script>
 
 <p> 
