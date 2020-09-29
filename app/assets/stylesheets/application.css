@@ -51,8 +51,8 @@ path {
   vector-effect: non-scaling-stroke;
 }
 
-path.dragging {
-  fill: blue;
+.dragging path{
+  fill: #4444ff50;
 }
 
 path.active {

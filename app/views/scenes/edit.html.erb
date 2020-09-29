@@ -32,20 +32,24 @@
 
   function addEntitiesToDOM(){
       var entities = d3.select("#entityGroup")
-        .selectAll("g")
+        .selectAll("g.entity")
         .data(data.entities)
         .enter()
         .append("g")
+        .attr("class", "entity")
         .attr("transform", (d) => `translate(${d.x} ${d.y})`)
+        .attr("id", (d) => d.key)
         .call(d3.drag()
             .on("drag", dragged)
             .on("end", dragEnd))
+      console.log(entities)
 
       var layers = entities
-        .selectAll("g")
+        .selectAll("g.layer")
         .data((d) => d.layers)
         .enter()
         .append('g')
+        .attr("class", "layer")
 
       var shapes = layers
         .selectAll('path')
@@ -77,6 +81,7 @@
     }
 
   function dragged(event, d) {
+      console.log('foo')
       // Update the position with the delta x and y applied by the drag:
       d.x += event.dx;
       d.y += event.dy;
@@ -105,14 +110,11 @@
     }
 
   function addEntity(){
-      var newEntity = {
-          id: 42,
-          key: key++,
-          label: "tree",
-          path: "M13 24.003h-2v-4.083c-2.836-.477-5-2.946-5-5.917 0-1.562.022-1.226 5.076-13.385.016 0 .223-.615.924-.615.697 0 .909.613.925.613 4.656 11.172 5.075 11.546 5.075 13.387 0 2.971-2.164 5.44-5 5.917v4.083z",
-          x: Math.random() * 100,
-          y: Math.random() * 100
-        }
+      var newEntity = JSON.parse(<%= raw @entities.first.json.to_json %>)
+      newEntity.key = key++
+      newEntity.x = 50;
+      newEntity.y = 50;
+      newEntity.scale = 1;
       data.entities.push(newEntity)
       addEntitiesToDOM()
 
@@ -148,14 +150,6 @@
         .style("fill", 'blue')
         .call(d3.drag()
             .on("drag", dragged))
-    }
-
-  function dragged(event, d) {
-      // Update the position with the delta x and y applied by the drag:
-      d.x += event.dx;
-      d.y += event.dy;
-      d3.select(this)
-        .attr("transform", (d) => `translate(${d.x} ${d.y})`)
     }
 
   function stopMoveMode(){

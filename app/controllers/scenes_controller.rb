@@ -19,6 +19,7 @@ class ScenesController < ApplicationController
 
   # GET /scenes/1/edit
   def edit
+    @entities = Entity.all
   end
 
   # POST /scenes
