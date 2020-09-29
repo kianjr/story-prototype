@@ -13,7 +13,7 @@
 
 <script>
   var width = d3.select("body").node().getBoundingClientRect().width
-  data = JSON.parse(<%= raw @scene.json.to_json %>)
+  var data = JSON.parse(<%= raw @scene.json.to_json %>)
   var svg = d3.select("svg")
     .attr("height", width)
     .attr("width", width)
@@ -31,7 +31,6 @@
     .enter()
     .append('g')
 
-
   var shapes = layers
     .selectAll('path')
     .data((d) => d.shapes)
@@ -39,9 +38,6 @@
     .append('path')
     .attr("d", (d) => d.path)
     .attr("transform", (d) => `translate(${d.x} ${d.y}) scale(${d.scale})`)
-
-    <%# .attr("d", (d) => d.path) %>
-    <%# .attr("transform", (d) => `translate(${d.x} ${d.y})`) %>
 </script>
 
 <p> 

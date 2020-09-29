@@ -1,6 +1,8 @@
 <h1>Editing Scene</h1>
 
-<div class="svgContainer"></div>
+<svg viewBox="0 0 100 100">
+  <g id="entityGroup"></g>
+</svg>
 <h2>Entities</h2>
 <div class="entitySelectors"> </div>
 <button onclick="addEntity()">Add Entity</button><br>
@@ -18,23 +20,40 @@
   var width = d3.select("body").node().getBoundingClientRect().width
   var data = JSON.parse(<%= raw @scene.json.to_json %>)
   var key = 0;
+
   data.entities.forEach((entity) => entity.key = key++)
+
   var selectedEntityKey = null;
   var selectedEntity = null;
 
-  var svg = d3.select(".svgContainer")
-    .append("svg")
+  var svg = d3.select("svg")
     .attr("height", width)
     .attr("width", width)
-    .attr("viewBox", "0 0 100 100")
 
   function addEntitiesToDOM(){
-      var svgEntities = svg.selectAll("path")
-        .data(data.entities, (d) => d.key)
+      var entities = d3.select("#entityGroup")
+        .selectAll("g")
+        .data(data.entities)
         .enter()
-        .append("path")
-        .attr("d", (d) => d.path)
+        .append("g")
         .attr("transform", (d) => `translate(${d.x} ${d.y})`)
+        .call(d3.drag()
+            .on("drag", dragged)
+            .on("end", dragEnd))
+
+      var layers = entities
+        .selectAll("g")
+        .data((d) => d.layers)
+        .enter()
+        .append('g')
+
+      var shapes = layers
+        .selectAll('path')
+        .data((d) => d.shapes)
+        .enter()
+        .append('path')
+        .attr("d", (d) => d.path)
+        .attr("transform", (d) => `translate(${d.x} ${d.y}) scale(${d.scale})`)
 
       var entitySelectors = d3.select(".entitySelectors")
         .selectAll("button.entitySelector")
@@ -55,6 +74,21 @@
       entitySelectors
         .append("label")
         .text((d) => d.label )
+    }
+
+  function dragged(event, d) {
+      // Update the position with the delta x and y applied by the drag:
+      d.x += event.dx;
+      d.y += event.dy;
+      d3.select(this)
+        .attr("transform", (d) => `translate(${d.x} ${d.y}) scale(${d.scale})`)
+        .classed("dragging", true)
+    }
+
+  function dragEnd(event, d) {
+      d3.select(this)
+        .classed("dragging", false)
+      updateJSON()
     }
 
   function selectEntity(event, d) {
