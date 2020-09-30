@@ -5,7 +5,9 @@
   <g id="layers"></g>
 </svg>
 
-<button onclick="addShape()">Add Shape</button>
+<button onclick="addShape('square')">Add Square</button>
+<button onclick="addShape('circle')">Add Circle</button>
+<button onclick="addShape('triangle')">Add Triangle</button>
 <button class="requireSelection" onclick="removeShape()">Remove Shape</button>
 
 <script>
@@ -62,9 +64,13 @@
       updateJSON()
     }
 
-  function addShape() {
-      const circlePath = "M4.51351666838205,0A4.51351666838205,4.51351666838205,0,1,1,-4.51351666838205,0A4.51351666838205,4.51351666838205,0,1,1,4.51351666838205,0"
-      data.layers[0].shapes.push({ path: circlePath, scale: 1, x: 0, y: 0})
+  function addShape(shape) {
+      const shapes = {
+          circle : "M4.51351666838205,0A4.51351666838205,4.51351666838205,0,1,1,-4.51351666838205,0A4.51351666838205,4.51351666838205,0,1,1,4.51351666838205,0",
+          square: "M-4,-4h8v8h-8Z",
+          triangle: "M24 22h-24l12-20z"
+        }
+      data.layers[0].shapes.push({ path: shapes[shape], scale: 1, x: 0, y: 0})
       updateLayers()
       updateJSON()
     }
