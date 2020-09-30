@@ -8,6 +8,9 @@
 <button onclick="addShape('square')">Add Square</button>
 <button onclick="addShape('circle')">Add Circle</button>
 <button onclick="addShape('triangle')">Add Triangle</button>
+
+<button class="requireSelection" onclick="resizeShape(1.2)">Resize +</button>
+<button class="requireSelection" onclick="resizeShape(0.8)">Resize -</button>
 <button class="requireSelection" onclick="removeShape()">Remove Shape</button>
 
 <script>
@@ -101,8 +104,14 @@
       updateJSON()
     }
 
+  function resizeShape(factor) {
+      selectedShape.datum().scale *= factor
+      updateLayers()
+      updateJSON()
+    }
+
   function updateButtons(){
-      d3.select("button.requireSelection")
+      d3.selectAll("button.requireSelection")
         .attr("disabled", !selectedShape || null)
     }
   updateButtons()
