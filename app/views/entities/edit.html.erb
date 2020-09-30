@@ -1,6 +1,7 @@
 <h1>Editing Entity</h1>
 
 <svg viewBox="-50 -50 100 100" class="edit">
+  <rect id="background" width="100" height="100" x="-50" y="-50" fill="#0000"></rect>
   <g id="layers"></g>
 </svg>
 
@@ -23,6 +24,9 @@
   var svg = d3.select("svg")
     .attr("height", width)
     .attr("width", width)
+
+  var bg = d3.select("#background")
+    .on("click", () => deselectShapes())
 
   function updateLayers(){
       var layers = d3.select("#layers")
@@ -72,6 +76,12 @@
       updateButtons()
     }
 
+  function deselectShapes(){
+      if (selectedShape) { selectedShape.classed("selected",false) }
+      selectedShape = null
+      updateButtons()
+    }
+
   function removeShape() {
       selectedShape.classed("selected", false)
       data.layers = data.layers.map((layer) => {
@@ -87,7 +97,7 @@
 
   function updateButtons(){
       d3.select("button.requireSelection")
-      .attr("disabled", !selectedShape || null)
+        .attr("disabled", !selectedShape || null)
     }
   updateButtons()
 
