@@ -24,11 +24,11 @@ body {
 }
 
 button {
- font-size: 20px;
- padding: 5px;
- border: 1px solid #ccc;
- border-radius: 5px;
- margin: 5px;
+  font-size: 20px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 5px;
 }
 
 .entitySelectors {
@@ -41,16 +41,24 @@ button {
 }
 
 svg {
-  background-color: #ddd;
+  background-color: #eee;
+  path {
+    fill: #fff;
+  }
 }
 
-path {
-  fill: #fff; 
-  vector-effect: non-scaling-stroke;
-}
-
-.dragging path{
-  fill: #4444ff50;
+svg.edit{
+  path {
+    opacity: .75;
+    stroke: grey;
+    stroke-width: 1.5;
+    vector-effect: non-scaling-stroke;
+    &.dragging{
+    stroke: white;
+    stroke-width: 2.5;
+      fill: DodgerBlue !important;
+    }
+  }
 }
 
 .entity {
