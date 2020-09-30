@@ -33,6 +33,11 @@ button {
   &:active {
     box-shadow: inset 0px 0px 5px #c1c1c1;
   }
+  &:disabled {
+    background: white;
+    color: lightGrey;
+    &:active { box-shadow: none; }
+  }
 }
 
 .entitySelectors {
@@ -51,15 +56,15 @@ svg {
   }
 }
 
-svg.edit{
+svg.edit {
   path {
     opacity: .75;
     stroke: grey;
     stroke-width: 1.5;
     vector-effect: non-scaling-stroke;
-    &.dragging{
-    stroke: white;
-    stroke-width: 2.5;
+    &.selected {
+      stroke: white;
+      stroke-width: 2.5;
       fill: DodgerBlue !important;
     }
   }

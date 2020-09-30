@@ -5,10 +5,21 @@
 </svg>
 
 <button onclick="addShape()">Add Shape</button>
+<button class="requireSelection" onclick="removeShape()">Remove Shape</button>
 
 <script>
   var width = d3.select("body").node().getBoundingClientRect().width
-  data = JSON.parse(<%= raw @entity.json.to_json %>)
+  var data = JSON.parse(<%= raw @entity.json.to_json %>)
+  var key = 0
+  var selectedShape= null
+
+  //apply keys to each shape
+  data.layers.forEach((layer) => {
+      layer.shapes.forEach((shape) => {
+          shape.key = key++
+        })
+    })
+
   var svg = d3.select("svg")
     .attr("height", width)
     .attr("width", width)
@@ -25,10 +36,13 @@
         .join('path')
         .attr("d", (d) => d.path)
         .attr("transform", (d) => `translate(${d.x} ${d.y}) scale(${d.scale})`)
+        .on("click", selectShape)
         .call(d3.drag()
+            .on("start", selectShape)
             .on("drag", dragged)
             .on("end", dragEnd))
     }
+
   updateLayers()
 
   function dragged(event, d) {
@@ -37,12 +51,10 @@
       d.y += event.dy;
       d3.select(this)
         .attr("transform", (d) => `translate(${d.x} ${d.y}) scale(${d.scale})`)
-        .classed("dragging", true)
+        .classed("selected", true)
     }
 
   function dragEnd(event, d) {
-      d3.select(this)
-        .classed("dragging", false)
       updateJSON()
     }
 
@@ -52,6 +64,32 @@
       updateLayers()
       updateJSON()
     }
+
+  function selectShape(event, d){
+      if (selectedShape) { selectedShape.classed("selected",false) }
+      selectedShape = d3.select(this)
+      selectedShape.classed("selected", true)
+      updateButtons()
+    }
+
+  function removeShape() {
+      selectedShape.classed("selected", false)
+      data.layers = data.layers.map((layer) => {
+          return {
+              shapes: layer.shapes.filter((shape) => shape.key !== selectedShape.datum().key)
+            }
+        })
+      selectedShape = null;
+      updateLayers()
+      updateButtons()
+      updateJSON()
+    }
+
+  function updateButtons(){
+      d3.select("button.requireSelection")
+      .attr("disabled", !selectedShape || null)
+    }
+  updateButtons()
 
   function updateJSON(){
       byId("entity_json").value = JSON.stringify(data)
