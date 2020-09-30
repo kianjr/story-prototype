@@ -46,7 +46,7 @@
         .data((d) => d.shapes)
         .join('path')
         .attr("d", (d) => d.path)
-        .attr("transform", (d) => `translate(${d.x} ${d.y}) scale(${d.scale}) rotate(${d.rotate || 0})`)
+        .attr("transform", (d) => `translate(${d.x} ${d.y}) scale(${d.scale}) rotate(${d.rotate})`)
         .on("click", selectShape)
         .call(d3.drag()
             .on("start", selectShape)
@@ -61,7 +61,7 @@
       d.x += event.dx;
       d.y += event.dy;
       d3.select(this)
-        .attr("transform", (d) => `translate(${d.x} ${d.y}) scale(${d.scale}) rotate(${d.rotate || 0})`)
+        .attr("transform", (d) => `translate(${d.x} ${d.y}) scale(${d.scale}) rotate(${d.rotate})`)
         .classed("selected", true)
     }
 
