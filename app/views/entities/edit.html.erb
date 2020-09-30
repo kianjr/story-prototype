@@ -4,6 +4,7 @@
   <g id="layers"></g>
 </svg>
 
+<button onclick="addShape()">Add Shape</button>
 
 <script>
   var width = d3.select("body").node().getBoundingClientRect().width
@@ -15,14 +16,12 @@
   var layers = d3.select("#layers")
     .selectAll('g')
     .data(data.layers)
-    .enter()
-    .append('g')
+    .join('g')
 
   var shapes = layers
     .selectAll('path')
     .data((d) => d.shapes)
-    .enter()
-    .append('path')
+    .join('path')
     .attr("d", (d) => d.path)
     .attr("transform", (d) => `translate(${d.x} ${d.y}) scale(${d.scale})`)
     .call(d3.drag()
@@ -42,6 +41,12 @@
       d3.select(this)
         .classed("dragging", false)
       updateJSON()
+    }
+
+  function addShape() {
+      const circlePath = "M4.51351666838205,0A4.51351666838205,4.51351666838205,0,1,1,-4.51351666838205,0A4.51351666838205,4.51351666838205,0,1,1,4.51351666838205,0"
+      data.layers[0].shapes.push({ path: circlePath, scale: 1, x: 0, y: 0})
+
     }
 
   function updateJSON(){
