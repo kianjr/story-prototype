@@ -13,20 +13,23 @@
     .attr("height", width)
     .attr("width", width)
 
-  var layers = d3.select("#layers")
-    .selectAll('g')
-    .data(data.layers)
-    .join('g')
+  function updateLayers(){
+      var layers = d3.select("#layers")
+        .selectAll('g')
+        .data(data.layers)
+        .join('g')
 
-  var shapes = layers
-    .selectAll('path')
-    .data((d) => d.shapes)
-    .join('path')
-    .attr("d", (d) => d.path)
-    .attr("transform", (d) => `translate(${d.x} ${d.y}) scale(${d.scale})`)
-    .call(d3.drag()
-        .on("drag", dragged)
-        .on("end", dragEnd))
+      var shapes = layers
+        .selectAll('path')
+        .data((d) => d.shapes)
+        .join('path')
+        .attr("d", (d) => d.path)
+        .attr("transform", (d) => `translate(${d.x} ${d.y}) scale(${d.scale})`)
+        .call(d3.drag()
+            .on("drag", dragged)
+            .on("end", dragEnd))
+    }
+  updateLayers()
 
   function dragged(event, d) {
       // Update the position with the delta x and y applied by the drag:
@@ -46,7 +49,8 @@
   function addShape() {
       const circlePath = "M4.51351666838205,0A4.51351666838205,4.51351666838205,0,1,1,-4.51351666838205,0A4.51351666838205,4.51351666838205,0,1,1,4.51351666838205,0"
       data.layers[0].shapes.push({ path: circlePath, scale: 1, x: 0, y: 0})
-
+      updateLayers()
+      updateJSON()
     }
 
   function updateJSON(){
