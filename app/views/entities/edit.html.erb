@@ -86,7 +86,7 @@
           triangle: d3.symbol(d3.symbolTriangle)(),
           diamond: d3.symbol(d3.symbolDiamond)()
         }
-      data.layers[selectedLayer].shapes.push({ path: shapes[shape], scale: 1, x: 0, y: 0, rotate: 0})
+      data.layers[selectedLayer].shapes.push({ path: shapes[shape], key: key++, scale: 1, x: 0, y: 0, rotate: 0})
       updateLayers()
       updateJSON()
     }
