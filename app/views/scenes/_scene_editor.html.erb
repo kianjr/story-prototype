@@ -1,0 +1,172 @@
+<svg viewBox="-50 -50 100 100" class="edit">
+  <rect id="background" width="100" height="100" x="-50" y="-50" fill="#0000"></rect>
+  <g id="layers"></g>
+</svg>
+
+<div id="layerButtons">
+  <span>Layers:</span><br>
+  <button onclick="selectLayer(0)">Bottom</button>
+  <button onclick="selectLayer(1)">Middle</button>
+  <button onclick="selectLayer(2)">Top</button>
+</div>
+
+<div>
+  <span>Add Entities:</span><br>
+  <button onClick="addEntity()"> Add Entity</button>
+</div>
+
+<div>
+  <p>Modify Entity (click an entity to select it)</p>
+  <button class="requireSelection" onclick="resizeEntity(1.2, 1.2)">Size+</button>
+  <button class="requireSelection" onclick="resizeEntity(0.8, 0.8)">Size-</button>
+  <button class="requireSelection" onclick="rotateEntity(15)">Rotate+</button>
+  <button class="requireSelection" onclick="rotateEntity(-15)">Rotate-</button>
+  <button class="requireSelection warning" onclick="removeEntity()">Remove</button>
+</div>
+
+<script>
+  var width = d3.select("body").node().getBoundingClientRect().width
+  var data = JSON.parse(<%= raw @scene.json.to_json %>)
+  var key = 0
+
+  if (data) {
+      //apply keys to each entity
+      data.layers.forEach((layer) => {
+          layer.entity.forEach((entity) => {
+              entity.key = key++
+            })
+        })
+    } else {
+        data = {"layers": [
+            {"entities": []},
+            {"entities": []},
+            {"entities": []}
+          ]}
+      }
+
+  var selectedEntity = null
+  var selectedLayer = 0
+
+  var svg = d3.select("svg")
+    .attr("height", width)
+    .attr("width", width)
+
+  var bg = d3.select("#background")
+    .on("click", () => deselectEntity())
+
+
+  function updateLayers(){
+      var layers = d3.select("#layers")
+        .selectAll('g.layer')
+        .data(data.layers)
+        .join('g')
+        .attr("class", (d,i) => i === selectedLayer ? 'layer selected' : 'layer')
+
+      var entities = layers
+        .selectAll('g.entity')
+        .data((d) => d.entities)
+        .join('g')
+        .classed("entity", true)
+        .on("click", selectEntity)
+        .attr("transform", (d) => `translate(${d.x} ${d.y}) rotate(${d.rotate}) scale(${d.scaleX} ${d.scaleY})`)
+        .call(d3.drag()
+            .on("start", selectEntity)
+            .on("drag", dragged)
+            .on("end", dragEnd))
+
+      var entityLayers = entities
+        .selectAll('g.entityLayer')
+        .data((d) => d.entity.layers)
+        .join('g')
+        .classed("entityLayer", true)
+
+      var enitityShapes = entityLayers
+        .selectAll('path')
+        .data((d) => d.shapes)
+        .join('path')
+        .classed("entityShape", true)
+        .attr("d", (d) => d.path)
+        .attr("transform", (d) => `translate(${d.x} ${d.y}) rotate(${d.rotate}) scale(${d.scaleX} ${d.scaleY})`)
+    }
+
+  updateLayers()
+
+  function dragged(event, d) {
+      // Update the position with the delta x and y applied by the drag:
+      d.x += event.dx;
+      d.y += event.dy;
+      d3.select(this)
+        .attr("transform", (d) => `translate(${d.x} ${d.y}) rotate(${d.rotate}) scale(${d.scaleX} ${d.scaleY})`)
+        .classed("selected", true)
+    }
+
+  function dragEnd(event, d) {
+      updateJSON()
+    }
+
+  function addEntity() {
+      const entity = JSON.parse(<%= raw Entity.all.first.json.to_json %>)
+      data.layers[selectedLayer].entities.push({ entity: entity, key: key++, scaleX: 1, scaleY: 1, x: 0, y: 0, rotate: 0})
+      updateLayers()
+      updateJSON()
+    }
+
+  function selectEntity(event, d){
+      if (selectedEntity) { selectedEntity.classed("selected",false) }
+      selectedEntity = d3.select(this)
+      selectedEntity.classed("selected", true)
+      updateButtons()
+    }
+
+  function deselectEntity(){
+      if (selectedEntity) { selectedEntity.classed("selected",false) }
+      selectedEntity = null
+      updateButtons()
+    }
+
+  function removeEntity() {
+      selectedEntity.classed("selected", false)
+      data.layers[selectedLayer].entity = data.layers[selectedLayer].entity
+        .filter((entity) => entity.key !== selectedEntity.datum().key)
+      selectedEntity = null;
+      updateLayers()
+      updateButtons()
+      updateJSON()
+    }
+
+  function resizeEntity(factorX, factorY) {
+      selectedEntity.datum().scaleX *= factorX
+      selectedEntity.datum().scaleY *= factorY
+      updateLayers()
+      updateJSON()
+    }
+
+  function rotateEntity(factor) {
+      selectedEntity.datum().rotate += factor 
+      updateLayers()
+      updateJSON()
+    }
+
+  function selectLayer(i){
+      selectedLayer = i 
+      deselectEntity()
+      updateButtons()
+      updateLayers()
+    }
+
+  function updateButtons(){
+      d3.selectAll("button.requireSelection")
+        .attr("disabled", !selectedEntity || null)
+
+      d3.select("#layerButtons")
+        .selectAll("button")
+        .attr("class", (d,i) => i === selectedLayer ? 'selected' : null)
+    }
+
+  updateButtons()
+
+  function updateJSON(){
+      byId("scene_json").value = JSON.stringify(data)
+    }
+
+</script>
