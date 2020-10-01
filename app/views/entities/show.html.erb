@@ -35,7 +35,7 @@
     .enter()
     .append('path')
     .attr("d", (d) => d.path)
-    .attr("transform", (d) => `translate(${d.x} ${d.y}) scale(${d.scale}) rotate(${d.rotate})`)
+    .attr("transform", (d) => `translate(${d.x} ${d.y}) rotate(${d.rotate}) scale(${d.scaleX} ${d.scaleY})`)
 </script>
 
 <p>

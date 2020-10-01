@@ -34,14 +34,20 @@ button {
     box-shadow: inset 0px 0px 5px #c1c1c1;
   }
   &:disabled {
-    background: white;
-    color: lightGrey;
+    background: white !important;
+    color: lightGrey !important;
+    border-color: lightGrey !important;
     &:active { box-shadow: none; }
   }
   &.selected {
     border-color: white;
     color: white;
     background-color: DodgerBlue;
+  }
+  &.warning {
+    background: #ffd9d9;
+    color: #552f2f;
+    border-color: #552f2f75;
   }
 }
 
