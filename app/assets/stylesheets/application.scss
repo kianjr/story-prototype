@@ -38,6 +38,11 @@ button {
     color: lightGrey;
     &:active { box-shadow: none; }
   }
+  &.selected {
+    border-color: white;
+    color: white;
+    background-color: DodgerBlue;
+  }
 }
 
 .entitySelectors {
@@ -56,16 +61,26 @@ svg {
   }
 }
 
-svg.edit {
-  path {
-    opacity: .75;
-    stroke: grey;
-    stroke-width: 1.5;
-    vector-effect: non-scaling-stroke;
-    &.selected {
-      stroke: white;
-      stroke-width: 2.5;
-      fill: DodgerBlue !important;
+.shape {
+  opacity: .75;
+  vector-effect: non-scaling-stroke;
+  stroke: #333;
+  &.selected {
+    stroke-width: 2.5;
+    fill: DodgerBlue !important;
+  }
+}
+
+g.layer {
+  opacity: .5;
+  .shape{
+    stroke-width: .5;
+  }
+  &.selected {
+    opacity: 1;
+    .shape{
+      stroke-width: 1.5;
+      fill: Azure;
     }
   }
 }

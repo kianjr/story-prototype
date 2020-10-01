@@ -5,6 +5,12 @@
   <g id="layers"></g>
 </svg>
 
+<div id="layerButtons">
+  <button onclick="selectLayer(0)">Layer 1</button>
+  <button onclick="selectLayer(1)">Layer 2</button>
+  <button onclick="selectLayer(2)">Layer 3</button>
+</div>
+
 <button onclick="addShape('circle')">Add Circle</button>
 <button onclick="addShape('square')">Add Square</button>
 <button onclick="addShape('triangle')">Add Triangle</button>
@@ -19,7 +25,8 @@
   var width = d3.select("body").node().getBoundingClientRect().width
   var data = JSON.parse(<%= raw @entity.json.to_json %>)
   var key = 0
-  var selectedShape= null
+  var selectedShape = null
+  var selectedLayer = 0
 
   //apply keys to each shape
   data.layers.forEach((layer) => {
@@ -35,11 +42,13 @@
   var bg = d3.select("#background")
     .on("click", () => deselectShapes())
 
+
   function updateLayers(){
       var layers = d3.select("#layers")
         .selectAll('g')
         .data(data.layers)
         .join('g')
+        .attr("class", (d,i) => i === selectedLayer ? 'layer selected' : 'layer')
 
       var shapes = layers
         .selectAll('path')
@@ -47,6 +56,7 @@
         .join('path')
         .attr("d", (d) => d.path)
         .attr("transform", (d) => `translate(${d.x} ${d.y}) scale(${d.scale}) rotate(${d.rotate})`)
+        .classed("shape", true)
         .on("click", selectShape)
         .call(d3.drag()
             .on("start", selectShape)
@@ -76,7 +86,7 @@
           triangle: d3.symbol(d3.symbolTriangle)(),
           diamond: d3.symbol(d3.symbolDiamond)()
         }
-      data.layers[0].shapes.push({ path: shapes[shape], scale: 1, x: 0, y: 0, rotate: 0})
+      data.layers[selectedLayer].shapes.push({ path: shapes[shape], scale: 1, x: 0, y: 0, rotate: 0})
       updateLayers()
       updateJSON()
     }
@@ -119,10 +129,21 @@
       updateJSON()
     }
 
+  function selectLayer(i){
+      selectedLayer = i 
+      updateButtons()
+      updateLayers()
+    }
+
   function updateButtons(){
       d3.selectAll("button.requireSelection")
         .attr("disabled", !selectedShape || null)
+
+      d3.select("#layerButtons")
+        .selectAll("button")
+        .attr("class", (d,i) => i === selectedLayer ? 'selected' : null)
     }
+
   updateButtons()
 
   function updateJSON(){
@@ -133,5 +154,4 @@
 
 <%= render 'form', entity: @entity %>
 
-<%= link_to 'Show', @entity %> |
 <%= link_to 'Back', entities_path %>
