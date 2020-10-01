@@ -106,11 +106,8 @@
 
   function removeShape() {
       selectedShape.classed("selected", false)
-      data.layers = data.layers.map((layer) => {
-          return {
-              shapes: layer.shapes.filter((shape) => shape.key !== selectedShape.datum().key)
-            }
-        })
+      data.layers[selectedLayer].shapes = data.layers[selectedLayer].shapes
+        .filter((shape) => shape.key !== selectedShape.datum().key)
       selectedShape = null;
       updateLayers()
       updateButtons()
