@@ -71,34 +71,21 @@ svg {
   opacity: .75;
   vector-effect: non-scaling-stroke;
   stroke: #333;
+  stroke-width: 2px;
   &.selected {
-    stroke-width: 2.5;
     fill: DodgerBlue !important;
   }
 }
 
 g.layer {
-  opacity: .5;
-
-  .shape{
-    pointer-events: none;
-    stroke-width: .5;
-  }
-
-  .entity{
+  opacity: .3;
+  .shape, .entity{
     pointer-events: none;
   }
 
   &.selected {
     opacity: 1;
-
-    .shape{
-      pointer-events: auto;
-      stroke-width: 1.5;
-      fill: Azure;
-    }
-
-    .entity{
+    .shape, .entity{
       pointer-events: auto;
     }
   }
