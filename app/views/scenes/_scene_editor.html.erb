@@ -36,7 +36,7 @@
   if (data) {
       //apply keys to each entity
       data.layers.forEach((layer) => {
-          layer.entity.forEach((entity) => {
+          layer.entities.forEach((entity) => {
               entity.key = key++
             })
         })
