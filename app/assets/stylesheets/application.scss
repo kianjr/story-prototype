@@ -79,16 +79,27 @@ svg {
 
 g.layer {
   opacity: .5;
+
   .shape{
     pointer-events: none;
     stroke-width: .5;
   }
+
+  .entity{
+    pointer-events: none;
+  }
+
   &.selected {
     opacity: 1;
+
     .shape{
       pointer-events: auto;
       stroke-width: 1.5;
       fill: Azure;
+    }
+
+    .entity{
+      pointer-events: auto;
     }
   }
 }
@@ -98,8 +109,3 @@ g.layer {
     fill: DodgerBlue 
   }
 }
-
-path.active {
-  stroke: lightblue;
-}
-
