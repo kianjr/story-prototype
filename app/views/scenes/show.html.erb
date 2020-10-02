@@ -1,44 +1,53 @@
 <p id="notice"><%= notice %></p>
 
-<svg viewBox="0 0 100 100">
-  <filter x="-2%" y="-2%" width="104%" height="104%" filterUnits="objectBoundingBox" id="pencilTexture3">
-    <feTurbulence type="fractalNoise" baseFrequency="2.5" numOctaves="5" stitchTiles="stitch" result="f1"/>
-    <feColorMatrix type="matrix" values="0 0 0 0 0, 0 0 0 0 0, 0 0 0 0 0, 0 0 0 -1.5 1.5" result="f2"/>
-    <feComposite operator="in" in2="f2b" in="SourceGraphic" result="f3"/>
-    <feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="3" result="noise"/>
-    <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale=".15" in="f3" result="f4"/>
+<svg viewBox="-50 -50 100 100" class="edit">
+  <filter filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" id="layerOutline">
+    <feMorphology operator="dilate" in="SourceAlpha" radius=".25" result="morph"/>
+    <feComposite operator="atop" in="SourceGraphic" in2="morph" result ="outline"/>
   </filter>
-  <g id="entityGroup" filter="url(#pencilTexture3)"></g>
+  <rect id="background" width="100" height="100" x="-50" y="-50" fill="#0000"></rect>
+  <g id="layers"></g>
 </svg>
 
 <script>
   var width = d3.select("body").node().getBoundingClientRect().width
   var data = JSON.parse(<%= raw @scene.json.to_json %>)
+
   var svg = d3.select("svg")
     .attr("height", width)
     .attr("width", width)
 
-  var entities = d3.select("#entityGroup")
-    .selectAll("g.entity")
-    .data(data.entities)
-    .enter()
-    .append("g")
-    .attr("class", "entity")
-    .attr("transform", (d) => `translate(${d.x} ${d.y}) scale(${d.scale})`)
+  function drawLayers(){
+      var layers = d3.select("#layers")
+        .selectAll('g.layer')
+        .data(data.layers)
+        .join('g')
 
-  var layers = entities
-    .selectAll("g")
-    .data((d) => d.layers)
-    .enter()
-    .append('g')
+      var entities = layers
+        .selectAll('g.entity')
+        .data((d) => d.entities)
+        .join('g')
+        .classed("entity", true)
+        .attr("transform", (d) => `translate(${d.x} ${d.y}) rotate(${d.rotate}) scale(${d.scaleX} ${d.scaleY})`)
 
-  var shapes = layers
-    .selectAll('path')
-    .data((d) => d.shapes)
-    .enter()
-    .append('path')
-    .attr("d", (d) => d.path)
-    .attr("transform", (d) => `translate(${d.x} ${d.y}) scale(${d.scale})`)
+      var entityLayers = entities
+        .selectAll('g.entityLayer')
+        .data((d) => d.entity.layers)
+        .join('g')
+        .classed("entityLayer", true)
+        .attr("filter", "url(#layerOutline)")
+
+      var enitityShapes = entityLayers
+        .selectAll('path')
+        .data((d) => d.shapes)
+        .join('path')
+        .classed("entityShape", true)
+        .attr("d", (d) => d.path)
+        .attr("transform", (d) => `translate(${d.x} ${d.y}) rotate(${d.rotate}) scale(${d.scaleX} ${d.scaleY})`)
+    }
+
+  drawLayers()
+
 </script>
 
 <p> 
