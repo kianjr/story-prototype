@@ -95,8 +95,7 @@ g.layer {
 
 .entity {
   &.selected path {
-    stroke: blue;
-    stroke-width: 4;
+    fill: DodgerBlue 
   }
 }
 
